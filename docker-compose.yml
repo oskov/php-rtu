@@ -1,0 +1,27 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:5.7.28
+    container_name: mysql-server-rtu
+    volumes:
+      - ./db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: database
+    ports:
+      - "4001:3306"
+  apache:
+    build: ./.docker
+    depends_on:
+      - mysql
+    ports:
+      - "4000:80"
+    volumes:
+      - .:/var/www/
+      - .docker/vhosts:/etc/apache2/sites-enabled
+    links:
+      - mysql
+      

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <form method="get">
+        <select name="category">
+            <option value=""></option>
+            {% for category in categories %}
+                <option value="{{ category|e }}">{{ category|e }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="minPrice" id="minPrice" class="form-control" placeholder="minimala cena">
+        <input type="number" name="maxPrice" id="maxPrice" class="form-control" placeholder="maksimala cena">
+        <button class="btn btn-lg btn-primary" type="submit">
+            Filter
+        </button>
+    </form>
+
+    <div class="grid-table">
+        {% for item in items %}
+            <ul>
+                <li>
+                    <h3>{{ item.name|e }}</h3>
+                    <h3 class="grid-item-price">{{ item.price|e }} $</h3>
+                    <img src="images/{{ asset( item.image|e ) }}" alt="image not found"/>
+                    <p>{{ item.description|e }}</p>
+                    <p>{{ item.category|e }}</p>
+                    <p>Positives votes: {{ item.posVotes|e }}</p>
+                    <p>Negatives votes: {{ item.negVotes|e }}</p>
+                    {% if (app.user and item.count|e > 0) %}
+                        <a class="button" href="{{ path('app_buy', {'id': item.id}) }}">Buy</a>
+                    {% endif %}
+                    {% if (item.count|e < 1) %}
+                        <p>Item not available</p>
+                    {% endif %}
+
+                </li>
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}

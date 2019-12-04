@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table>
+        <tr>
+            <th>{{ item.name|e }}</th>
+        </tr>
+        <tr>
+            <th>{{ item.price|e }} $</th>
+        </tr>
+        <tr>
+            <th>{{ item.category|e }}</th>
+        </tr>
+        <tr>
+            <th>{{ item.description|e }}</th>
+        </tr>
+    </table>
+    <a class="button" href="{{ path('app_votePos', {'id': item.id|e }) }}">Good item</a>
+    <a class="button" href="{{ path('app_voteNeg', {'id': item.id|e }) }}">Bad item</a>
+    <a class="button" href="{{ path('home') }}">Back to home</a>
+{% endblock %}

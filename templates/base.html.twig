@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <script src="{{ asset('js/main.js') }}"></script>
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet"/>
+</head>
+<body>
+<header class="header" role="banner">
+    <h1 class="logo">
+        <a href="{{ path('home') }}"><span>Home</span></a>
+    </h1>
+    <div class="nav-wrap">
+        <nav class="main-nav" role="navigation">
+            <ul class="unstyled list-hover-slide">
+                {% if not app.user %}
+                    <a class="menu-element" href="{{ path('app_login') }}">Log in</a>
+                    <a class="menu-element" href="{{ path('app_register') }}">Register</a>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="menu-element" href="{{ path('item_index') }}">Edit items</a>
+                    <a class="menu-element" href="{{ path('user_index') }}">Edit users</a>
+                {% endif %}
+                {% if app.user %}
+                    <a class="menu-element" href="{{ path('app_logout') }}">Logout</a>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>
+<div class="main">
+    {% if app.user %}
+        <div class="logged">
+            <p> You are logged in as {{ app.user.username }} </p>
+        </div>
+    {% endif %}
+    {#    <div class="nav-wrap">#}
+    {#        <a class="menu-element" href="{{ path('home') }}">Home</a>#}
+    {#        {% if not app.user %}#}
+    {#            <a class="menu-element" href="{{ path('app_login') }}">Log in</a>#}
+    {#            <a class="menu-element" href="{{ path('app_register') }}">Register</a>#}
+    {#        {% endif %}#}
+    {#        {% if is_granted('ROLE_ADMIN') %}#}
+    {#            <a class="menu-element" href="{{ path('item_index') }}">Edit items</a>#}
+    {#            <a class="menu-element" href="{{ path('user_index') }}">Edit users</a>#}
+    {#        {% endif %}#}
+    {#    </div>#}
+    {% block body %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+
+</div>
+</body>
+</html>
